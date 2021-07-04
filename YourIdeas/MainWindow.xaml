@@ -1,0 +1,62 @@
+﻿<Window x:Class="YourIdeas.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:YourIdeas"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        mc:Ignorable="d"
+        Title="Your Ideas" Height="650" Width="1000">
+    
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Closed">
+            <i:InvokeCommandAction Command="{Binding Save}"/>
+        </i:EventTrigger>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding ReadingIdeas}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    
+    <Grid>
+
+        <ListBox HorizontalAlignment="Left" Width="290" Margin="10,10,10,10" 
+                 SelectedItem="{Binding SelectedIdea}" ItemsSource="{Binding Ideas}" 
+                 Background="#FF2569D9" Foreground="White" BorderBrush="White">
+            <ListBox.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="15"/>
+                </Style>
+            </ListBox.Resources>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Margin="5">
+                        <TextBlock FontSize="18" Text="{Binding Path=Title}" />
+                        <TextBlock Text="{Binding Path=Date}" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="Margin" Value="10,10,10,10"/>
+                    <Style.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="5"/>
+                        </Style>
+                    </Style.Resources>
+                </Style>
+            </ListBox.ItemContainerStyle>
+        </ListBox>
+
+        <TextBox Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}" DataContext="{Binding SelectedIdea}" 
+                 Margin="310,10,10,10" VerticalAlignment="Top" Height="101" FontSize="48" Style="{DynamicResource Content TextBlock}" />
+        <TextBlock Text="{Binding Date, UpdateSourceTrigger=PropertyChanged}" DataContext="{Binding SelectedIdea}" 
+                   Margin="330,70,10,10" VerticalAlignment="Top" Height="40" FontSize="20" Foreground="White"/>
+        <TextBox Text="{Binding Content, UpdateSourceTrigger=PropertyChanged}" DataContext="{Binding SelectedIdea}" 
+                 Margin="310,116,10,10" TextWrapping="Wrap"  AcceptsReturn = "True" Style="{DynamicResource Content TextBlock}" FontSize="18"/>
+
+        <Button Command="{Binding Add}" Content="New idea" HorizontalAlignment="Left" Margin="25,0,0,79" VerticalAlignment="Bottom" Width="194" RenderTransformOrigin="-0.147,1.1" Height="49" Style="{DynamicResource RoundedButton}" FontSize="18"/>
+        <Button Command="{Binding Remove}" Content="-" CommandParameter="{Binding SelectedIdea}" HorizontalAlignment="Left" Margin="224,0,0,79" VerticalAlignment="Bottom" Width="59" RenderTransformOrigin="-0.147,1.1" Height="49" Style="{DynamicResource RoundedButton}"/>
+        <Button Command="{Binding Save}" Content="Save" HorizontalAlignment="Left" Margin="25,0,0,25" VerticalAlignment="Bottom" Width="258" RenderTransformOrigin="-0.147,1.1" Height="49" Style="{DynamicResource RoundedButton}" FontSize="18"/>
+    </Grid>
+</Window>
